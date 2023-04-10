@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
-
+  let grid = [];
+  let matches = null;
   let response = {};
   let array = [];
   /*   [...Array(5).keys()].forEach((getData) => console.log(Array(getData))); */
@@ -21,18 +22,38 @@
     console.log(res);
     let apiResponse = await res.json();
     console.log(apiResponse);
-    response = {
-      grid: apiResponse.grid,
-      matches: apiResponse.matches,
-      reward: apiResponse.reward,
-    };
+
+    (grid = apiResponse.grid),
+      (matches = apiResponse.matches),
+      (reward = apiResponse.reward);
+    /* grid = apiResponse.grid; */
   };
   onMount(getData);
 </script>
 
-<div class="box">
-  <h1>Combination: {response.grid}</h1>
-  <h1>matches:{response.matches}</h1>
+<div class="card">
+  <div>
+    <table>
+      {#each grid as row}
+        <tr>
+          {#each row as cell}
+            <td>{cell}</td>
+          {/each}
+        </tr>
+      {/each}
+    </table>
+  </div>
+
+  <div>
+    <h2>Matches :</h2>
+    {#if matches}
+      <ul>
+        <li>Trips: {JSON.stringify(matches.trips)}</li>
+        <li>Pairs: {JSON.stringify(matches.pairs)}</li>
+      </ul>
+    {/if}
+  </div>
+
   <h1>payout: {response.reward ?? ""}</h1>
   <button on:click={getData}>Run</button>
 </div>
@@ -56,5 +77,13 @@
     color: #fff;
     font-weight: bold;
     cursor: pointer;
+  }
+  .card {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    max-width: 500px;
+    margin: 0 auto;
   }
 </style>
