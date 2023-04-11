@@ -54,7 +54,7 @@
     {/if}
   </div>
 
-  <h1>payout: {response.reward ?? ""}</h1>
+  <!-- <h1>payout: {response.reward ?? ""}</h1> -->
   <button on:click={getData}>Run</button>
 </div>
 
@@ -79,7 +79,7 @@
     cursor: pointer;
   }
   .card {
-    background-color: #fff;
+    background-color: #2aa3c2;
     border-radius: 4px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     padding: 16px;
