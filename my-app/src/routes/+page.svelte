@@ -23,10 +23,16 @@
     let apiResponse = await res.json();
     console.log(apiResponse);
 
-    (grid = apiResponse.grid),
-      (matches = apiResponse.matches),
-      (reward = apiResponse.reward);
+    (grid = apiResponse.grid), (matches = apiResponse.matches);
+    /*   (reward = apiResponse.reward); */
     /* grid = apiResponse.grid; */
+
+    const another = { ...matches };
+    for (let key in another) {
+      console.log(key, another[key]);
+    }
+    console.log(matches.pairs.reward);
+    console.log();
   };
   onMount(getData);
 </script>
@@ -34,10 +40,22 @@
 <div class="card">
   <div>
     <table>
-      {#each grid as row}
+      {#each grid as row, i}
+        <!--  {#if matches.pairs.some( (pair) => pair.position.some( (pos) => pos.includes(i)) ) }
+          <h1>true</h1>
+        {/if} -->
         <tr>
-          {#each row as cell}
-            <td>{cell}</td>
+          {#each row as cell, j}
+            <td
+              class={matches.pairs.some((pair) =>
+                pair.position.some((pos) => pos[0] === i && pos[1] === j)
+              ) ||
+              matches.trips.some((trip) =>
+                trip.position.some((pos) => pos[0] === i && pos[1] === j)
+              )
+                ? "hor-highlight"
+                : ""}>{cell}</td
+            >
           {/each}
         </tr>
       {/each}
@@ -54,6 +72,7 @@
     {/if}
   </div>
 
+  <h1>Total payout</h1>
   <!-- <h1>payout: {response.reward ?? ""}</h1> -->
   <button on:click={getData}>Run</button>
 </div>
@@ -85,5 +104,8 @@
     padding: 16px;
     max-width: 500px;
     margin: 0 auto;
+  }
+  .hor-highlight {
+    border: 1px solid black;
   }
 </style>
