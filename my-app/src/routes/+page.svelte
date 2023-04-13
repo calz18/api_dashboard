@@ -53,7 +53,7 @@
               matches.trips.some((trip) =>
                 trip.position.some((pos) => pos[0] === i && pos[1] === j)
               )
-                ? "hor-highlight"
+                ? "highlight"
                 : ""}>{cell}</td
             >
           {/each}
@@ -98,14 +98,14 @@
     cursor: pointer;
   }
   .card {
-    background-color: #2aa3c2;
+    background-color: #2e8799;
     border-radius: 4px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     padding: 16px;
     max-width: 500px;
     margin: 0 auto;
   }
-  .hor-highlight {
-    border: 1px solid black;
+  .highlight {
+    border: 1px solid rgba(12, 0, 0, 0.904);
   }
 </style>
