@@ -4,6 +4,9 @@
   let matches = null;
   let response = {};
   let array = [];
+  let rewardsArray = [];
+  let sumOfRewards = 0;
+
   /*   [...Array(5).keys()].forEach((getData) => console.log(Array(getData))); */
   const getData = async () => {
     let bet = 100;
@@ -23,16 +26,29 @@
     let apiResponse = await res.json();
     console.log(apiResponse);
 
-    (grid = apiResponse.grid), (matches = apiResponse.matches);
-    /*   (reward = apiResponse.reward); */
+    /*     (grid = apiResponse.grid), (matches = apiResponse.matches);
+     */ /*   (reward = apiResponse.reward); */
     /* grid = apiResponse.grid; */
-
-    const another = { ...matches };
+    ({ grid, matches } = apiResponse);
+    /*   const another = { ...matches };
     for (let key in another) {
       console.log(key, another[key]);
-    }
-    console.log(matches.pairs.reward);
-    console.log();
+    } */
+
+    matches.pairs.forEach((pair) => {
+      rewardsArray.push(pair.reward);
+    });
+    matches.trips.forEach((trip) => {
+      rewardsArray.push(trip.reward);
+    });
+
+    sumOfRewards = rewardsArray.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    );
+    console.log(rewardsArray);
+    console.log(sumOfRewards);
+    rewardsArray.length = 0;
   };
   onMount(getData);
 </script>
@@ -72,7 +88,8 @@
     {/if}
   </div>
 
-  <h1>Total payout</h1>
+  <h1>Total payout:</h1>
+  <p>{sumOfRewards}</p>
   <!-- <h1>payout: {response.reward ?? ""}</h1> -->
   <button on:click={getData}>Run</button>
 </div>
